@@ -1,7 +1,7 @@
 Package: DepInfeR
 Type: Package
 Title: Inferring patient-specific cancer dependencies through integrating ex-vivo drug response assays and drug-protein profiling
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: 
   c(person(given = "Junyan",
            family = "Lu",
@@ -11,7 +11,7 @@ Authors@R:
     person(given = "Alina",
            family = "Batzilla",
            role = c("aut")))
-Description: DepInfeR is an R package for a computational method that integrates two experimentally accessible input data matrices:\n the drug sensitivity profiles of cancer cell lines or primary tumors ex-vivo (X), and the drug affinities of a set of proteins (Y), to infer a matrix of molecular protein dependencies of the cancers (ß).\n DepInfeR deconvolves the protein inhibition effect on the viability phenotype by using regularized multivariate linear regression. \n It assigns an “dependence coefficient” to each protein and each sample, and therefore could be used to gain causal and accurate understanding of functional consequences of genomic aberrations in a heterogeneous disease, as well as to guide the choice of pharmacological intervention for a specific cancer type, sub-type, or an individual patient. 
+Description: DepInfeR is an R package for a computational method that integrates two experimentally accessible input data matrices: the drug sensitivity profiles of cancer cell lines or primary tumors ex-vivo (X), and the drug affinities of a set of proteins (Y), to infer a matrix of molecular protein dependencies of the cancers (ß). DepInfeR deconvolves the protein inhibition effect on the viability phenotype by using regularized multivariate linear regression. It assigns an “dependence coefficient” to each protein and each sample, and therefore could be used to gain causal and accurate understanding of functional consequences of genomic aberrations in a heterogeneous disease, as well as to guide the choice of pharmacological intervention for a specific cancer type, sub-type, or an individual patient. 
 License: GPL-3
 Encoding: UTF-8
 Depends:
