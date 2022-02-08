@@ -11,7 +11,8 @@ an object of "tbl_df" (tidy table)
 data(drug_response_GDSC)
 }
 \description{
-This is the Genomics of Drug Sensitivity in Cancer (GDSC) drug sensitivity dataset, downloaded from https://www.cancerrxgene.org/.
+This is the Genomics of Drug Sensitivity in Cancer (GDSC) drug sensitivity dataset, 
+downloaded from https://www.cancerrxgene.org/.
 }
 \examples{
 data(drug_response_GDSC)

@@ -24,7 +24,7 @@ Main function to run LASSO regression
 \examples{
 data(responseInput) #load drug response matrix
 data(targetInput) #load drug-target affinity matrix
-runLASSOregression(TargetMatrix = targetInput, ResponseMatrix  = responseInput, repeats = 5)
+runLASSOregression(TargetMatrix = targetInput, ResponseMatrix = responseInput, repeats = 5)
 # Please refer to the package vignette for more detailed information about this function.
 
 

@@ -11,7 +11,8 @@ an object of "tbl_df" (tidy table)
 data(targetsGDSC)
 }
 \description{
-This drug-protein affinity profiling data for the analysis of the GDSC dataset - a subset of the data provided by Klaeger et al. 2017.
+This drug-protein affinity profiling data for the analysis of the GDSC dataset - 
+a subset of the data provided by Klaeger et al. 2017.
 }
 \examples{
 data(targetsGDSC)

@@ -3,7 +3,8 @@
 
 #' drug_response_GDSC
 #'
-#' This is the Genomics of Drug Sensitivity in Cancer (GDSC) drug sensitivity dataset, downloaded from https://www.cancerrxgene.org/.
+#' This is the Genomics of Drug Sensitivity in Cancer (GDSC) drug sensitivity dataset, 
+#' downloaded from https://www.cancerrxgene.org/.
 #'
 #' @docType data
 #' @usage data(drug_response_GDSC)
@@ -15,7 +16,8 @@
 
 #' targetsGDSC
 #'
-#' This drug-protein affinity profiling data for the analysis of the GDSC dataset - a subset of the data provided by Klaeger et al. 2017.
+#' This drug-protein affinity profiling data for the analysis of the GDSC dataset - 
+#' a subset of the data provided by Klaeger et al. 2017.
 #'
 #' @docType data
 #' @usage data(targetsGDSC)
@@ -27,7 +29,8 @@
 
 #' mutation_GDSC
 #'
-#' This cancer type and genomic background annotation for cancer cell lines, use for the analysis of the GDSC dataset in the package vignetee.
+#' This cancer type and genomic background annotation for cancer cell lines, 
+#' use for the analysis of the GDSC dataset in the package vignetee.
 #'
 #' @docType data
 #' @usage data(mutation_GDSC)
