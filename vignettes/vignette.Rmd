@@ -32,9 +32,9 @@ library(ggbeeswarm)
 
 # Introduction
 
-DepInfeR is an R package for a computational method that integrates two experimentally accessible input data matrices: the drug sensitivity profiles of cancer cell lines or primary tumors ex-vivo (X), and the drug affinities of a set of proteins (Y), to infer a matrix of molecular protein dependencies of the cancers (ß). DepInfeR deconvolves the protein inhibition effect on the viability phenotype by using regularized multivariate linear regression. It assigns an “dependence coefficient” to each protein and each sample, and therefore could be used to gain causal and accurate understanding of functional consequences of genomic aberrations in a heterogeneous disease, as well as to guide the choice of pharmacological intervention for a specific cancer type, sub-type, or an individual patient.  
+DepInfeR is an R package for a computational method that integrates two experimentally accessible input data matrices: the drug sensitivity profiles of cancer cell lines or primary tumors *ex-vivo* (X), and the drug affinities of a set of proteins (Y), to infer a matrix of molecular protein dependencies of the cancers (ß). DepInfeR deconvolves the protein inhibition effect on the viability phenotype by using regularized multivariate linear regression. It assigns an “dependence coefficient” to each protein and each sample, and therefore could be used to gain causal and accurate understanding of functional consequences of genomic aberrations in a heterogeneous disease, as well as to guide the choice of pharmacological intervention for a specific cancer type, sub-type, or an individual patient.  
 
-This document provide a walk-through of using the **DepInfeR** package to infer sample-specific  protein dependencies from drug-protein affinity profiling and ex-vivo drug response data.
+This document provide a walk-through of using the **DepInfeR** package to infer sample-specific  protein dependencies from drug-protein affinity profiling and *ex-vivo* drug response data.
 
 
 # Data input
@@ -145,7 +145,7 @@ for (i in 0 : 138) {
 }
 plot(missTab, type = "l")
 ```
-By looking at the missing value distribution, we choose cell lines with a maximum of 24 missing values per cell line (= 35%) and will imput the remaining missing values by using the MissForest imputation method.
+By looking at the missing value distribution, we choose cell lines with a maximum of 24 missing values per cell line (= 35%) and will input the remaining missing values by using the MissForest imputation method.
 
 ## Subset for cell lines with less than 24 missing values (based on assessment above)
 ```{r}
@@ -275,7 +275,7 @@ colnames(cell_anno_final) <- str_replace_all(colnames(cell_anno_final),
                                              "_trans","_translocation")
 ```
 
-A customised function to perform association test.
+A customized function to perform association test.
 ```{r}
 diffImportance <- function(coefMat, Annotation) {
   #process genetic background table
@@ -361,7 +361,7 @@ plotTab <- testRes %>% dplyr::filter(mutName != "cancer_type") %>%
     mutate(varName = ifelse(type == "not significant","",targetName)) %>%
     mutate(p.adj = ifelse(p.adj <1e-5, 1e-5,p.adj))
 
-#subset for mutation with at least one significant associations
+#subset for mutation with at least one significant association
 plotMut <- unique(filter(testRes, p.adj <= 0.1)$mutName)
 plotTab <- plotTab %>% dplyr::filter(mutName %in% plotMut) 
 plotTab$type <- factor(plotTab$type, 
