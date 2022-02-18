@@ -15,7 +15,7 @@
 #' they can be removed using the provided function.
 #'
 #' @param targetsMat Drug-protein affinity matrix with kd values (or optionally other
-#' affinity measurement values at roughly normal distribution).
+#' affinity measurement values at roughly normal distribution). Rows should contain drugs and columns should contain targets.
 #' @param KdAsInput A boolean value indicating whether the drug-protein
 #' affinity matrix contains kd values which should be log- and arctan-transformed.
 #' The default value is TRUE.
@@ -81,8 +81,8 @@ processTarget <- function(targetsMat, KdAsInput = TRUE, removeCorrelated = TRUE,
 
 #' Main function to run LASSO regression
 #'
-#' @param TargetMatrix Pre-processed drug-protein affinity matrix.
-#' @param ResponseMatrix Pre-processed drug-response matrix.
+#' @param TargetMatrix Pre-processed drug-protein affinity matrix. Rows should contain drugs and columns should contain targets.
+#' @param ResponseMatrix Pre-processed drug-response matrix. Rows should contain drugs and columns should contain samples.
 #' @param cores A numeric variable specifying the number of cores.
 #' @param repeats A numeric variable specifying the number of regression repeats.
 #' @return Pre-processed drug-protein affinity matrix

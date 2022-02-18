@@ -30,7 +30,7 @@
 #' mutation_GDSC
 #'
 #' This cancer type and genomic background annotation for cancer cell lines, 
-#' use for the analysis of the GDSC dataset in the package vignetee.
+#' use for the analysis of the GDSC dataset in the package vignette.
 #'
 #' @docType data
 #' @usage data(mutation_GDSC)
@@ -42,7 +42,7 @@
 
 #' responseInput
 #'
-#' Processed drug response matrix for examples and test of runLASSOregression
+#' Processed drug response matrix for examples and test of runLASSOregression. Rows contain drugs and columns contain samples.
 #'
 #' @docType data
 #' @usage data(responseInput)
@@ -53,7 +53,7 @@
 
 #' targetInput
 #'
-#' Processed drug-target affinity matrix for examples and test of runLASSOregression
+#' Processed drug-target affinity matrix for examples and test of runLASSOregression. Rows contain drugs and columns contain targets.
 #'
 #' @docType data
 #' @usage data(targetInput)
@@ -65,7 +65,7 @@
 
 #' targetMatrix
 #'
-#' Drug-target affinity matrix
+#' Drug-target affinity matrix. Rows contain drugs and columns contain targets.
 #'
 #' @docType data
 #' @usage data(targetMatrix)

@@ -135,7 +135,7 @@ responseMatrix <- filter(drug_response_GDSC, `Drug Id` %in% targetsGDSC$drugID) 
 Currently, DepInfeR does not support input data with missing values. Therefore, the missing values in the input datasets need to be properly handled. The entries with missing values can either be removed or imputed.   
 
 We firstly check the distribution of our missing values across all cell lines.
-```{r}
+```{r, fig.cap = "Plot of remaining celllines depending on cutoff for the maximum number of missing values per column (cellline)"}
 missTab <- data.frame(NA_cutoff = character(0), 
                       remain_celllines = character(0), stringsAsFactors = FALSE)
       
@@ -209,7 +209,7 @@ nrow(result$coefMat)
 
 The protein dependence matrix can be nicely visualized in a heatmap. High positive coefficients imply strong reliance of a certain sample on this protein for survival. Proteins with coefficients close to zero are less essential for the survival of cells. Negative coefficients indicate that the viability phenotype benefits from inhibition of the protein. 
 
-```{r GDSC_coefHeatmap, fig.height=12, fig.width=18}
+```{r GDSC_coefHeatmap, fig.height=12, fig.width=18, fig.cap ="Heatmap visualization of the protein dependence values for selected kinases, inferred from the GDSC drug screen dataset. Red indicates high dependence value and blue indicates low dependence value. In the column annotations, cell lines with certain genomic variations are colored by black. Columns are ordered by hierarchical clustering based on euclidean distance."}
 #firstly, we need to load the processed mutation annotation of the cell lines
 data("mutation_GDSC")
 annoColor <- list(H2O2 = c(`-1` = "red", `0` = "black", `1` = "green"),
@@ -318,7 +318,7 @@ testRes <-  diffImportance(result$coefMat, cell_anno_final)
 ```
 
 ## Visualize protein associations with cancer type
-```{r GDSC_diffCoef_box,fig.height=7, fig.width=16}
+```{r GDSC_diffCoef_box,fig.height=7, fig.width=16, fig.cap="Protein dependence coefficients for kinases with significant association with the cancer types (ANOVA, BH adjusted p-value < 0.05, Fold Change > 0.1). Within each panel, each point corresponds to a cell line. The coefficients were centered and scaled to obtain a per-protein z-score, and the points are grouped and colored by cancer type (ALL, red; AML, orange; DLBC, green, BRCAHer-, blue; BRCAHer+, purple)."}
 CancerType <- testRes %>% dplyr::filter(mutName == "cancer_type") %>% 
     dplyr::filter(p.adj < 0.05, FC > 0.1)
 plotTab <- t(scale(t(result$coefMat))) %>% data.frame() %>%
@@ -351,7 +351,7 @@ ggplot(plotTab, aes(x = target, y = coef, group=Cancer_Type)) +
 ```
 
 ## Visualize P-values of significant associations between protein dependence and mutational background
-```{r gdsc_pval_vis, fig.height=6, fig.width=10}
+```{r gdsc_pval_vis, fig.height=6, fig.width=10, fig.cap="Significant associations between mutational background and protein dependence of GDSC cancer cell lines."}
 colList2 <- c(`not significant` = "grey80", mutated = "#BC3C29FF", 
               unmutated = "#0072B5FF")
 pos = position_jitter(width = 0.15, seed = 10)
@@ -456,7 +456,7 @@ plotDiffBox <- function(pTab, coefMat, cellAnno, fdrCut = 0.05) {
 
 
 Visualization of exemplary association between NRAS mutation status and MAP2K2 dependence visualized in a beeswarm plot
-```{r gdsc boxplot, fig.height=4.5, fig.width=5}
+```{r gdsc boxplot, fig.height=4.5, fig.width=5, fig.cap="Boxplot showing the significant association between MAP2K2 protein dependence and NRAS mutation in GDSC cancer cell lines."}
 pList <- plotDiffBox(testRes, result$coefMat, cell_anno_final, 0.05)
 pList$MAP2K2_NRAS
 ```

@@ -3,7 +3,7 @@
 #
 #This function removes highly correlated proteins from the drug-protein
 #affinity matrix, based on hierarchical clustering, and only keeps on protein of
-#the clusters of highly correlated proteins.
+#the clusters of highly correlated proteins. Rows should contain drugs and columns should contain targets.
 removeCorrelatedTargets <- function(x, cutoff = 0.8, distance = "cosine",
                                     cluster_method = "ward.D2") {
     # calculate distance matrix
