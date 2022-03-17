@@ -14,7 +14,7 @@ processTarget(
 }
 \arguments{
 \item{targetsMat}{Drug-protein affinity matrix with kd values (or optionally other
-affinity measurement values at roughly normal distribution).}
+affinity measurement values at roughly normal distribution). Rows should contain drugs and columns should contain targets.}
 
 \item{KdAsInput}{A boolean value indicating whether the drug-protein
 affinity matrix contains kd values which should be log- and arctan-transformed.

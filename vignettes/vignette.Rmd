@@ -16,8 +16,7 @@ library(DepInfeR)
 library(tidyr)
 library(tidyverse)
 library(missForest)
-library(parallel)
-library(doParallel)
+library(BiocParallel)
 library(glmnet)
 library(rlist)
 library(matrixStats)
@@ -29,6 +28,15 @@ library(ggbeeswarm)
 ```
 
 ***
+
+# Installation
+
+The DepInfeR package is available at bioconductor.org and can be downloaded via Bioc Manager:
+```{r installation, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+install.packages("BiocManager")
+BiocManager::install("DepInfeR")
+```
 
 # Introduction
 
@@ -185,6 +193,8 @@ responseInput <- responseMatrix_scaled[overlappedDrugs,]
 
 Perform multivariant LASSO regression based on a drug-protein affinity matrix and a drug response matrix.   
 In this walk-through we only use 20 repetitions to save time.  In a real application, the number of repetitions can be larger, e.g. repeats = 100, to gain more robust estimations.
+
+
 ```{r}
 set.seed(333)
 result <- runLASSOregression(TargetMatrix = targetInput, 

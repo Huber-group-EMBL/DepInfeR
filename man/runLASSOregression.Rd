@@ -7,11 +7,11 @@
 runLASSOregression(TargetMatrix, ResponseMatrix, cores = 1, repeats = 100)
 }
 \arguments{
-\item{TargetMatrix}{Pre-processed drug-protein affinity matrix.}
+\item{TargetMatrix}{Pre-processed drug-protein affinity matrix. Rows should contain drugs and columns should contain targets.}
 
-\item{ResponseMatrix}{Pre-processed drug-response matrix.}
+\item{ResponseMatrix}{Pre-processed drug-response matrix. Rows should contain drugs and columns should contain samples.}
 
-\item{cores}{A numeric variable specifying the number of cores.}
+\item{cores}{A numeric variable specifying the number of cores. Multi-core parallelization may only work for Mac OS and Linux.}
 
 \item{repeats}{A numeric variable specifying the number of regression repeats.}
 }

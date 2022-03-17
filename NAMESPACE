@@ -2,12 +2,9 @@
 
 export(processTarget)
 export(runLASSOregression)
-import(doParallel)
-import(doRNG)
-import(foreach)
+import(BiocParallel)
 import(glmnet)
 import(matrixStats)
-import(parallel)
 import(rlang)
 import(rlist)
 import(stats)

@@ -83,11 +83,11 @@ processTarget <- function(targetsMat, KdAsInput = TRUE, removeCorrelated = TRUE,
 #'
 #' @param TargetMatrix Pre-processed drug-protein affinity matrix. Rows should contain drugs and columns should contain targets.
 #' @param ResponseMatrix Pre-processed drug-response matrix. Rows should contain drugs and columns should contain samples.
-#' @param cores A numeric variable specifying the number of cores.
+#' @param cores A numeric variable specifying the number of cores. Multi-core parallelization may only work for Mac OS and Linux.
 #' @param repeats A numeric variable specifying the number of regression repeats.
 #' @return Pre-processed drug-protein affinity matrix
 #' @export
-#' @import glmnet doRNG foreach doParallel parallel rlang stats
+#' @import glmnet rlang stats BiocParallel
 #'
 #' @examples
 #' data(responseInput) #load drug response matrix
@@ -97,27 +97,23 @@ processTarget <- function(targetsMat, KdAsInput = TRUE, removeCorrelated = TRUE,
 #'
 #'
 runLASSOregression <- function(TargetMatrix, ResponseMatrix, cores = 1, repeats = 100) {
-
-    #function for multi-target LASSO with repeated cross-validation
-    runGlm.multi.para <- function(X, y, folds, lambda = "lambda.min",
-                                  standardize = FALSE) {
-        res <- cv.glmnet(X, y, family = "mgaussian",
-                         nfolds = folds, alpha = 1,
-                         standardize = standardize)
-        res
+  
+  #function for multi-target LASSO with repeated cross-validation
+  runGlm.multi.para <- function(i, X, y, folds=3, lambda = "lambda.min",
+                                standardize = FALSE) {
+    res <- cv.glmnet(X, y, family = "mgaussian",
+                     nfolds = folds, alpha = 1,
+                     standardize = standardize)
+    res
   }
-
-    #script for LASSO regression on saved input matrices
-    cl <- makeCluster(cores)
-    registerDoParallel(cl)
-
-    allResults <- foreach(i = seq(repeats), .packages = "glmnet") %dorng% {
-        runGlm.multi.para(TargetMatrix, ResponseMatrix, folds = 3)
-    }
-
-    stopCluster(cl)
-
-    #Run function for processing glm results
-    processGlm(allResults, TargetMatrix, ResponseMatrix)
+  
+  #script for LASSO regression on saved input matrices
+  multicoreParam <- MulticoreParam(workers = cores)
+  
+  allResults <- bplapply(seq(repeats), runGlm.multi.para, 
+                         TargetMatrix, ResponseMatrix, 
+                         BPPARAM = multicoreParam)
+  
+  #Run function for processing glm results
+  processGlm(allResults, TargetMatrix, ResponseMatrix)
 }
-

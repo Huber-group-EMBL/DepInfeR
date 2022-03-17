@@ -11,7 +11,7 @@ an object of matrix
 data(targetInput)
 }
 \description{
-Processed drug-target affinity matrix for examples and test of runLASSOregression
+Processed drug-target affinity matrix for examples and test of runLASSOregression. Rows contain drugs and columns contain targets.
 }
 \examples{
 data(targetInput)

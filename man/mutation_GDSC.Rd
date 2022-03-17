@@ -12,7 +12,7 @@ data(mutation_GDSC)
 }
 \description{
 This cancer type and genomic background annotation for cancer cell lines, 
-use for the analysis of the GDSC dataset in the package vignetee.
+use for the analysis of the GDSC dataset in the package vignette.
 }
 \examples{
 data(mutation_GDSC)

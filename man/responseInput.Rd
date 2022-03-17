@@ -11,7 +11,7 @@ an object of matrix
 data(responseInput)
 }
 \description{
-Processed drug response matrix for examples and test of runLASSOregression
+Processed drug response matrix for examples and test of runLASSOregression. Rows contain drugs and columns contain samples.
 }
 \examples{
 data(responseInput)

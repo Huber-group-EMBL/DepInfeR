@@ -11,7 +11,7 @@ an object of matrix
 data(targetMatrix)
 }
 \description{
-Drug-target affinity matrix
+Drug-target affinity matrix. Rows contain drugs and columns contain targets.
 }
 \examples{
 data(targetMatrix)
