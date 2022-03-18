@@ -13,6 +13,8 @@ data(targetsGDSC)
 \description{
 This drug-protein affinity profiling data for the analysis of the GDSC dataset - 
 a subset of the data provided by Klaeger et al. 2017.
+The raw data can be found in the supplementary file of the paper (Table_S1 & Table_S2): https://science.sciencemag.org/content/358/6367/eaan4368/tab-figures-data.
+The post-processing steps can be found at: https://www.huber.embl.de/users/jlu/depInfeR/process_kinobeads.html.
 }
 \examples{
 data(targetsGDSC)

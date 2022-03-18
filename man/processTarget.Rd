@@ -26,7 +26,8 @@ correlated proteins should be summarized in target groups. The default value is 
 \item{keepTargets}{A character variable that specifies important proteins
 that should be retained in the matrix.}
 
-\item{cutoff}{A similarity cutoff value for clustering proteins into one target group.}
+\item{cutoff}{A Cosine similarity cutoff value for clustering proteins 
+into one target group. The value should be between 0 and 1.}
 }
 \value{
 A list of two element: 1)\code{targetMatrix} Pre-processed drug-protein

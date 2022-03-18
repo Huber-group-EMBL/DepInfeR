@@ -4,28 +4,14 @@
 #This function removes highly correlated proteins from the drug-protein
 #affinity matrix, based on hierarchical clustering, and only keeps on protein of
 #the clusters of highly correlated proteins. Rows should contain drugs and columns should contain targets.
-removeCorrelatedTargets <- function(x, cutoff = 0.8, distance = "cosine",
-                                    cluster_method = "ward.D2") {
-    # calculate distance matrix
-    if (distance == "binary") {
-        #maybe also useful is the input is a sparse matrix
-        distMat <- stats::dist(t(x), method = "binary")
-    } else if (distance == "pearson") {
-        #otherwise, using pearson correlation
-        distMat <- stats::as.dist(1-stats::cor(x))
-    } else if (distance == "euclidean") {
-        distMat <- stats::dist(t(x), method = "euclidean")
-    } else if (distance == "cosine") {
-        # cosine similarity maybe preferred for sparse matrix
-        cosineSimi <- function(x){
-            x%*%t(x)/(sqrt(rowSums(x^2) %*% t(rowSums(x^2))))
-        }
-        distMat <- stats::as.dist(1-cosineSimi(t(x)))
-    } else if (distance == "canberra") {
-        distMat <- stats::as.dist(as.matrix(stats::dist(t(x),
-                                            method = "canberra"))/nrow(x))
+removeCorrelatedTargets <- function(x, cutoff = 0.8, cluster_method = "ward.D2") {
+    # calculate distance
+    # cosine similarity maybe preferred for sparse matrix
+    cosineSimi <- function(x){
+        x%*%t(x)/(sqrt(rowSums(x^2) %*% t(rowSums(x^2))))
     }
-
+    distMat <- stats::as.dist(1-cosineSimi(t(x)))
+    
     #hierarchical clustering
     hc <- stats::hclust(distMat, method = cluster_method)
     clusters <- stats::cutree(hc, h = 1-cutoff)
@@ -49,10 +35,9 @@ processGlm <- function(results, X, y, lambda = "lambda.min") {
     lambdaList <- rep(NA,length(results))
     varExplain.all <- rep(NA,length(results))
     varExplain.cv <- rep(NA,length(results))
-    #add identifiers to coefMat, change it to coefTab
-    coefTab <- tibble(a = rep(colnames(X), times = ncol(y)),
-                      b = rep(colnames(y), each = ncol(X)))
-
+    coefTab <- data.frame(a = rep(colnames(X), times = ncol(y)),
+                          b = rep(colnames(y), each = ncol(X)))
+    
     for (i in seq(length(results))) {
         res <- results[[i]]
         lambdaList[i] <- res[[lambda]]
@@ -65,27 +50,22 @@ processGlm <- function(results, X, y, lambda = "lambda.min") {
         varExp <- stats::cor(as.vector(y),as.vector(y.pred))^2
         varExplain.all[i] <- varExp
     }
-
-    #generate result matrix
-    resMat <- -as.matrix(dplyr::select(coefTab, -.data$a , -.data$b))
-    coefTab <- dplyr::mutate(coefTab,
-                             freq = rowSums(!resMat == 0)/ncol(resMat),
-                             med = rowMedians(resMat))
-
-    #selection frequency matrix
-    freqMat <- dplyr::select(coefTab, .data$a, .data$b, .data$freq) %>%
-        tidyr::pivot_wider(names_from = .data$b, values_from = .data$freq) %>%
-        data.frame() %>% remove_rownames() %>% column_to_rownames("a") %>%
-        as.matrix()
-
-    #mean coefficient matrix
-    coefMat <- dplyr::select(coefTab, .data$a, .data$b, .data$med) %>%
-        tidyr::pivot_wider(names_from = .data$b, values_from = .data$med) %>%
-        data.frame() %>% remove_rownames() %>% column_to_rownames("a") %>%
-        as.matrix()
-
+    
+    #generate result matrix, the sign of coefficient is reversed in order to let 
+    #higher coefficient indicates higher target important. 
+    resMat <- -as.matrix(coefTab[,!colnames(coefTab) %in% c("a","b")])
+    coefTab[["freq"]] <- rowSums(!resMat == 0)/ncol(resMat)
+    coefTab[["med"]] <- rowMedians(resMat)
+    
+    freqMat <- coefMat <- matrix(data=NA, nrow = ncol(X), ncol = ncol(y),
+                                 dimnames = list(colnames(X),colnames(y)))
+    
+    for (eachCol in colnames(freqMat)) {
+        freqMat[,eachCol] <- coefTab[coefTab$b %in% eachCol,]$freq
+        coefMat[,eachCol] <- coefTab[coefTab$b %in% eachCol,]$med
+    }
+    
     list(coefMat = coefMat, freqMat = freqMat,
          lambdaList = lambdaList, varExplain.all = varExplain.all,
          inputX = X, inputY = y)
 }
-

@@ -1,0 +1,19 @@
+citHeader("To cite DepInfeR in publications use:")
+
+citEntry(entry = "Article",
+  title        = "Inferring tumor-specific cancer dependencies through integrating ex-vivo drug response assays and drug-protein profiling",
+  author       = personList(as.person("Alina Batzilla"),
+                   as.person("Junyan Lu"),as.person("Jarno Kivioja"),
+                   as.person("Kerstin Putzker"),as.person("Joe Lewis"),
+                   as.person("Thorsten Zenz"),as.person("Wolfgang Huber")),
+  journal      = "bioRxiv",
+  year         = "2022",
+  doi          = "10.1101/2022.01.11.475864",
+  url          = "https://www.biorxiv.org/content/10.1101/2022.01.11.475864v1",
+
+  textVersion  =
+  paste("Alina Batzilla, Junyan Lu (2022).",
+        "Inferring tumor-specific cancer dependencies through integrating ex-vivo drug response assays and drug-protein profiling",
+        "bioRxiv",
+        "URL https://www.biorxiv.org/content/10.1101/2022.01.11.475864v1")
+)

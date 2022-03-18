@@ -11,7 +11,8 @@ an object of matrix
 data(targetMatrix)
 }
 \description{
-Drug-target affinity matrix. Rows contain drugs and columns contain targets.
+A toy data set that contains drug-target affinity matrix for examples and test of processTarget function. 
+Rows contain drugs and columns contain targets.
 }
 \examples{
 data(targetMatrix)
