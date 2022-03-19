@@ -1,7 +1,7 @@
 Package: DepInfeR
 Type: Package
 Title: Inferring tumor-specific cancer dependencies through integrating ex-vivo drug response assays and drug-protein profiling
-Version: 0.99.3
+Version: 0.99.4
 Authors@R: 
   c(person(given = "Junyan",
            family = "Lu",

@@ -469,6 +469,7 @@ p <- ggplot(data = plotTab, aes(
   )
 plot(p)
 ```
+The above figure shows the -log10(adjusted P values) for each protein-mutation association. The color indicates the direction of association. Red indicates a higher dependence in the mutated samples and blue indicated a lower dependence in mutated samples. The dashed line indicates 10% FDR.
 
 
 ## Boxplot visualization for the difference of target importance values
@@ -541,6 +542,7 @@ Visualization of exemplary association between NRAS mutation status and MAP2K2 d
 pList <- plotDiffBox(testRes, importanceTab, cell_anno_final, 0.05)
 pList$MAP2K2_NRAS
 ```
+The above boxplot shows the protein dependence coefficient of MAP2K2 protein in NRAS mutated and wildtype cell lines. 
 
 # Session info
 ```{r}
