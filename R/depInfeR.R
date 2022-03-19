@@ -154,6 +154,8 @@ processTarget <- function(targetsMat, KdAsInput = TRUE, removeCorrelated = TRUE,
 #' @param repeats A integer variable specifying the number of regression repeats.
 #' The default value is 100. A higher number can result in better stability but 
 #' also takes longer time.  
+#' @param RNGseed User can specify a random seed number if reproducibility is required. 
+#' Note that the global random seed by \code{set.seed()} is ignored.  
 #' @return Pre-processed drug-protein affinity matrix
 #' @export
 #' @import glmnet stats BiocParallel
@@ -164,7 +166,8 @@ processTarget <- function(targetsMat, KdAsInput = TRUE, removeCorrelated = TRUE,
 #' data(targetInput) #load drug-target affinity matrix
 #' runLASSORegression(TargetMatrix = targetInput, ResponseMatrix = responseInput, repeats = 5)
 #'
-runLASSORegression <- function(TargetMatrix, ResponseMatrix, cores = 1, repeats = 100) {
+runLASSORegression <- function(TargetMatrix, ResponseMatrix, cores = 1, 
+                               repeats = 100, RNGseed = NULL) {
     
   #check arguments
   stopifnot(is.matrix(TargetMatrix))
@@ -181,15 +184,12 @@ runLASSORegression <- function(TargetMatrix, ResponseMatrix, cores = 1, repeats 
     res
   }
   
-  if (cores > 1) {
-      multicoreParam <- MulticoreParam(workers = cores)
-      allResults <- bplapply(seq(repeats), runGlm.multi, 
-                             TargetMatrix, ResponseMatrix, 
-                             BPPARAM = multicoreParam)
-  } else {
-      allResults <- lapply(seq(repeats), runGlm.multi, 
-                             TargetMatrix, ResponseMatrix)
-  }
+  multicoreParam <- MulticoreParam(workers = cores, RNGseed = RNGseed)
+  
+  allResults <- bplapply(seq(repeats), runGlm.multi, 
+                         TargetMatrix, ResponseMatrix, 
+                         BPPARAM = multicoreParam)
+
   
   #Run function for processing glm results
   processGlm(allResults, TargetMatrix, ResponseMatrix)

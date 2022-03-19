@@ -205,13 +205,14 @@ responseInput <- responseMatrix_scaled[overlappedDrugs, ]
 ## Multi-target LASSO model
 
 Perform multivariate LASSO regression based on a drug-protein affinity matrix and a drug response matrix.   
-In this walk-through, we only use 20 repetitions to save time. In a real application, the number of repetitions can be larger, e.g. repeats = 100, to gain more robust estimations.
+In this walk-through, we only use 20 repetitions to save time. In a real application, the number of repetitions can be larger, e.g. repeats = 100, to gain more robust estimations. We will also set a seed for the random number generator to ensure reproducibility.
+Note that the global random number stream by set.seed() function is ignored by the runLASSORegression() function.
 
 ```{r}
-set.seed(333)
 result <- runLASSORegression(
   TargetMatrix = targetInput,
-  ResponseMatrix = responseInput, repeats = 3
+  ResponseMatrix = responseInput, repeats = 3,
+  RNGseed = 333
 )
 ```
 

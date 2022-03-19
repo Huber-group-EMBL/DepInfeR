@@ -4,7 +4,13 @@
 \alias{runLASSORegression}
 \title{Main function for running LASSO regression to calculate protein dependence coefficient}
 \usage{
-runLASSORegression(TargetMatrix, ResponseMatrix, cores = 1, repeats = 100)
+runLASSORegression(
+  TargetMatrix,
+  ResponseMatrix,
+  cores = 1,
+  repeats = 100,
+  RNGseed = NULL
+)
 }
 \arguments{
 \item{TargetMatrix}{Pre-processed drug-protein affinity matrix. 
@@ -19,6 +25,9 @@ Multi-core parallelization may only work for Mac OS and Linux.}
 \item{repeats}{A integer variable specifying the number of regression repeats.
 The default value is 100. A higher number can result in better stability but 
 also takes longer time.}
+
+\item{RNGseed}{User can specify a random seed number if reproducibility is required. 
+Note that the global random seed by \code{set.seed()} is ignored.}
 }
 \value{
 Pre-processed drug-protein affinity matrix
