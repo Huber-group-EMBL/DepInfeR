@@ -1,4 +1,5 @@
-load("expected/ProcessTargetResults_expected.rda")
+fpath <- system.file("testdata", "ProcessTargetResults_expected.rda", package="DepInfeR")
+load(fpath)
 data("targetMatrix")
 
 #without force keeping targets

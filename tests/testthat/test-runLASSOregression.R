@@ -1,4 +1,6 @@
-load("expected/runLASSORegression_expected.rda")
+fpath <- system.file("testdata", "runLASSORegression_expected.rda", package="DepInfeR")
+load(fpath)
+
 data("targetInput")
 data("responseInput")
 
