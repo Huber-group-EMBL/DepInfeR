@@ -6,8 +6,8 @@
 #' a matrix of molecular protein dependencies of the cancers (ß). 
 #' DepInfeR deconvolutes the protein inhibition effect on the viability 
 #' phenotype by using regularized multivariate linear regression. 
-#' It assigns an “dependence coefficient” to each protein and each sample, 
-#' and therefore could be used to gain causal and accurate understanding of 
+#' It assigns a “dependence coefficient” to each protein and each sample, 
+#' and therefore could be used to gain a causal and accurate understanding of 
 #' functional consequences of genomic aberrations in a heterogeneous disease, 
 #' as well as to guide the choice of pharmacological intervention for a specific 
 #' cancer type, sub-type, or an individual patient. For more information, 
@@ -63,19 +63,21 @@ NULL
 #' If there are highly correlated features within the affinity matrix,
 #' they can be removed using the provided function.
 #'
-#' @param targetsMat Drug-protein affinity matrix with kd values (or optionally other
-#' affinity measurement values at roughly normal distribution). Rows should contain drugs and columns should contain targets.
+#' @param targetsMat Drug-protein affinity matrix with kd values (or optionally 
+#' other affinity measurement values at roughly normal distribution). Each row is
+#' a drug and each column is a sample (cell line or tumor sample).
 #' @param KdAsInput A boolean value indicating whether the drug-protein
 #' affinity matrix contains kd values which should be log- and arctan-transformed.
 #' The default value is TRUE.
 #' @param removeCorrelated A boolean value indicating whether highly
-#' correlated proteins should be summarized in target groups. The default value is TRUE.
+#' correlated proteins should be summarized in target groups. 
+#' The default value is TRUE.
 #' @param keepTargets  A character variable that specifies important proteins
 #' that should be retained in the matrix.
 #' @param cutoff A Cosine similarity cutoff value for clustering proteins 
 #' into one target group. The value should be between 0 and 1.
 #' @export
-#' @return A list of two element: 1)\code{targetMatrix} Pre-processed drug-protein
+#' @return A list of two elements: 1)\code{targetMatrix} Pre-processed drug-protein
 #' affinity matrix; 2)\code{targetCluster}, a list that contains the targets
 #' show high correlations with each other.
 #'
@@ -135,12 +137,23 @@ processTarget <- function(targetsMat, KdAsInput = TRUE, removeCorrelated = TRUE,
 
 
 
-#' Main function to run LASSO regression
-#'
-#' @param TargetMatrix Pre-processed drug-protein affinity matrix. Rows should contain drugs and columns should contain targets.
-#' @param ResponseMatrix Pre-processed drug-response matrix. Rows should contain drugs and columns should contain samples.
-#' @param cores A integer variable specifying the number of cores. Multi-core parallelization may only work for Mac OS and Linux.
+#' Main function for running LASSO regression to calculate protein dependence coefficient
+#' 
+#' This function performs multivariate linear regression with LASSO penalty and 
+#' cross-validation to infer per-sample protein dependence coefficients. 
+#' Please refer to the package vignette for more detailed information about this function.
+#' For the mathematical model behind this function, 
+#' please refer to our preprint on bioRxiv: https://doi.org/10.1101/2022.01.11.475864
+#' 
+#' @param TargetMatrix Pre-processed drug-protein affinity matrix. 
+#' Each row is a drug and each column is a protein target.
+#' @param ResponseMatrix Pre-processed drug-response viability matrix. 
+#' Each row is a drug and each column is a sample (cell line or tumor sample).  
+#' @param cores A integer variable specifying the number of cores. 
+#' Multi-core parallelization may only work for Mac OS and Linux.
 #' @param repeats A integer variable specifying the number of regression repeats.
+#' The default value is 100. A higher number can result in better stability but 
+#' also takes longer time.  
 #' @return Pre-processed drug-protein affinity matrix
 #' @export
 #' @import glmnet stats BiocParallel
@@ -150,9 +163,6 @@ processTarget <- function(targetsMat, KdAsInput = TRUE, removeCorrelated = TRUE,
 #' data(responseInput) #load drug response matrix
 #' data(targetInput) #load drug-target affinity matrix
 #' runLASSORegression(TargetMatrix = targetInput, ResponseMatrix = responseInput, repeats = 5)
-#' # Please refer to the package vignette for more detailed information about this function.
-#' # For the mathematical model behind this function, 
-#' # please refer to our preprint on bioRxiv: https://doi.org/10.1101/2022.01.11.475864
 #'
 runLASSORegression <- function(TargetMatrix, ResponseMatrix, cores = 1, repeats = 100) {
     
@@ -171,7 +181,6 @@ runLASSORegression <- function(TargetMatrix, ResponseMatrix, cores = 1, repeats 
     res
   }
   
-  #script for LASSO regression on saved input matrices
   if (cores > 1) {
       multicoreParam <- MulticoreParam(workers = cores)
       allResults <- bplapply(seq(repeats), runGlm.multi, 

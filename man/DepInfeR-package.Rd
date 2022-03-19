@@ -11,8 +11,8 @@ ex-vivo (X), and the drug affinities of a set of proteins (Y), to infer
 a matrix of molecular protein dependencies of the cancers (ß). 
 DepInfeR deconvolutes the protein inhibition effect on the viability 
 phenotype by using regularized multivariate linear regression. 
-It assigns an “dependence coefficient” to each protein and each sample, 
-and therefore could be used to gain causal and accurate understanding of 
+It assigns a “dependence coefficient” to each protein and each sample, 
+and therefore could be used to gain a causal and accurate understanding of 
 functional consequences of genomic aberrations in a heterogeneous disease, 
 as well as to guide the choice of pharmacological intervention for a specific 
 cancer type, sub-type, or an individual patient. For more information, 

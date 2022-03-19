@@ -2,31 +2,37 @@
 % Please edit documentation in R/depInfeR.R
 \name{runLASSORegression}
 \alias{runLASSORegression}
-\title{Main function to run LASSO regression}
+\title{Main function for running LASSO regression to calculate protein dependence coefficient}
 \usage{
 runLASSORegression(TargetMatrix, ResponseMatrix, cores = 1, repeats = 100)
 }
 \arguments{
-\item{TargetMatrix}{Pre-processed drug-protein affinity matrix. Rows should contain drugs and columns should contain targets.}
+\item{TargetMatrix}{Pre-processed drug-protein affinity matrix. 
+Each row is a drug and each column is a protein target.}
 
-\item{ResponseMatrix}{Pre-processed drug-response matrix. Rows should contain drugs and columns should contain samples.}
+\item{ResponseMatrix}{Pre-processed drug-response viability matrix. 
+Each row is a drug and each column is a sample (cell line or tumor sample).}
 
-\item{cores}{A integer variable specifying the number of cores. Multi-core parallelization may only work for Mac OS and Linux.}
+\item{cores}{A integer variable specifying the number of cores. 
+Multi-core parallelization may only work for Mac OS and Linux.}
 
-\item{repeats}{A integer variable specifying the number of regression repeats.}
+\item{repeats}{A integer variable specifying the number of regression repeats.
+The default value is 100. A higher number can result in better stability but 
+also takes longer time.}
 }
 \value{
 Pre-processed drug-protein affinity matrix
 }
 \description{
-Main function to run LASSO regression
+This function performs multivariate linear regression with LASSO penalty and 
+cross-validation to infer per-sample protein dependence coefficients. 
+Please refer to the package vignette for more detailed information about this function.
+For the mathematical model behind this function, 
+please refer to our preprint on bioRxiv: https://doi.org/10.1101/2022.01.11.475864
 }
 \examples{
 data(responseInput) #load drug response matrix
 data(targetInput) #load drug-target affinity matrix
 runLASSORegression(TargetMatrix = targetInput, ResponseMatrix = responseInput, repeats = 5)
-# Please refer to the package vignette for more detailed information about this function.
-# For the mathematical model behind this function, 
-# please refer to our preprint on bioRxiv: https://doi.org/10.1101/2022.01.11.475864
 
 }

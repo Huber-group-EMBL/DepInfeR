@@ -1,5 +1,5 @@
 ---
-title: "Use of the DepInfeR package to infer sample-specific protein dependencies from drug-protein profiling and ex-vivo drug response data"
+title: "Use DepInfeR package to infer sample-specific protein dependencies from drug-protein profiling and ex-vivo drug response data"
 author: "Alina Batzilla, Junyan Lu"
 package: DepInfeR
 output: 
@@ -38,9 +38,9 @@ BiocManager::install("DepInfeR")
 
 # Introduction
 
-DepInfeR is an R package for a computational method that integrates two experimentally accessible input data matrices: the drug sensitivity profiles of cancer cell lines or primary tumors *ex-vivo* (X), and the drug affinities of a set of proteins (Y), to infer a matrix of molecular protein dependencies of the cancers (ß). DepInfeR deconvolves the protein inhibition effect on the viability phenotype by using regularized multivariate linear regression. It assigns an “dependence coefficient” to each protein and each sample, and therefore could be used to gain causal and accurate understanding of functional consequences of genomic aberrations in a heterogeneous disease, as well as to guide the choice of pharmacological intervention for a specific cancer type, sub-type, or an individual patient.  
+DepInfeR is an R package for a computational method that integrates two experimentally accessible input data matrices: the drug sensitivity profiles of cancer cell lines or primary tumors *ex-vivo* (X), and the drug affinities of a set of proteins (Y), to infer a matrix of molecular protein dependencies of the cancers (ß). DepInfeR deconvolutes the protein inhibition effect on the viability phenotype by using regularized multivariate linear regression. It assigns a “dependence coefficient” to each protein and each sample, and therefore could be used to gain a causal and accurate understanding of functional consequences of genomic aberrations in a heterogeneous disease, as well as to guide the choice of pharmacological intervention for a specific cancer type, sub-type, or an individual patient.  
 
-This document provide a walk-through of using the **DepInfeR** package to infer sample-specific  protein dependencies from drug-protein affinity profiling and *ex-vivo* drug response data.
+This document provides a walk-through of using the **DepInfeR** package to infer sample-specific protein dependencies from drug-protein affinity profiling and *ex-vivo* drug response data.
 
 For more information, please read out preprint on bioRxiv: https://doi.org/10.1101/2022.01.11.475864.  
 
@@ -51,7 +51,7 @@ As inputs, DepInfeR requires two types of data:
 2) a drug response dataset containing phenotypic data (e.g. viability measurements) of samples in response to a set of drugs.
 
 In this exemplary walk-through analysis we use 
-1) drug-protein affinity data from Klaeger et al. 2017, which can be found the supplementary file of the paper (Table_S1 & Table_S2):
+1) drug-protein affinity data from Klaeger et al. 2017, which can be found in the supplementary file of the paper (Table_S1 & Table_S2):
 https://science.sciencemag.org/content/358/6367/eaan4368/tab-figures-data, and
 2) drug response data from the Genomics of Drug Sensitivity in Cancer (GDSC) cancer cell line screening dataset: https://www.cancerrxgene.org/.
 
@@ -62,9 +62,9 @@ A subset of leukemia and breast cancer cell lines was chosen for this analysis. 
 - Acute myeloid leukemia (AML)
 - Breast carcinoma (BRCAHer+ / BRCAHer-)
 
-The Her2 status of the breast cancer cell lines were annotated manually.
+The Her2 status of the breast cancer cell lines was annotated manually.
 
-As a genetic background of the cancer cell lines, they were annotated with their mutational background. 
+Genetic background of the cancer cell lines was annotated with their mutational background. 
 The mutational background of the cell lines was retrieved from https://www.cancerrxgene.org/downloads/genetic_features.
 
 
@@ -86,9 +86,7 @@ head(drug_response_GDSC)
 
 ***
 
-
-
-# Pre-pocessing the drug-protein dataset
+# Pre-processing the drug-protein dataset
 
 We first need to do some pre-processing of both datasets, to turn them into numeric matrices that can be used as inputs for DepInfeR.
 
@@ -120,7 +118,7 @@ We provide a function, *ProcessTargetResults*, for the pre-processing of the dru
 - arctan-transform log(Kd) values (KdAsInput = TRUE)
 - check target similarity and remove highly correlated targets (removeCorrelated = TRUE)
 
-All steps within this function are optional depending on input data. The transformation steps should be performed if the affinity matrix consists of Kd values. If there are highly correlated features within the affinity matrix, they can be removed using the provided function.  The users can also use their own method to preprocess the input drug-target affinity matrix, as long as the distributions of the affinity values is roughly normal and do not have too many highly correlated features.
+All steps within this function are optional depending on input data. The transformation steps should be performed if the affinity matrix consists of Kd values. If there are highly correlated features within the affinity matrix, they can be removed using the provided function.  The users can also use their own method to preprocess the input drug-target affinity matrix, as long as the distribution of the affinity values is roughly normal and do not have too many highly correlated features.
 ```{r}
 ProcessTargetResults <- processTarget(targetMatrix,
   KdAsInput = TRUE,
@@ -130,9 +128,9 @@ ProcessTargetResults <- processTarget(targetMatrix,
 
 # Preparation of the drug response matrix
 
-## Prepare drug response matrix using the z-score 
+## Prepare drug response matrix using z-scores
 
-The z-score was chosen as a suitable measurement value for our drug screening response matrix as it corresponds to a normalization for each drug over all cell lines. When working with AUC or IC50 values, a suitable normalization of the values is recommended.
+The z-score was chosen as a suitable measurement value for our drug screening response matrix as it acts as normalization for each drug over all cell lines. When working with AUC or IC50 values, a suitable normalization of the values is recommended.
 In this analysis we used the z-score of the AUC values as the drug response input for DepInfeR.
 
 ```{r}
@@ -148,7 +146,7 @@ responseMatrix <- filter(drug_response_GDSC, `Drug Id` %in% targetsGDSC$drugID) 
 
 Currently, DepInfeR does not support input data with missing values. Therefore, the missing values in the input datasets need to be properly handled. The entries with missing values can either be removed or imputed.   
 
-We firstly check the distribution of our missing values across all cell lines. Below is the plot of remaining celllines depending on cutoff for the maximum number of missing values per column (cellline).  
+We firstly check the distribution of our missing values across all cell lines. Below is the plot of remaining cell lines depending on cutoff for the maximum number of missing values per column (cell line).  
 ```{r}
 missTab <- data.frame(
   NA_cutoff = 0,
@@ -186,9 +184,9 @@ responseMatrix_imputed <- t(imp_missforest)
 responseMatrix_scaled <- t(scale(t(responseMatrix_imputed)))
 ```
 
-# Combine the feature and reponse matrix for regression model
+# Combine the feature and response matrix for the regression model
 
-In the step, we will also subset the drug-target affinity matrix and the drug response matrix to only keep the drugs present in both matrix. 
+In this step, we will also subset the drug-target affinity matrix and the drug response matrix to only keep the drugs present in both matrices. 
 ```{r}
 targetInput <- ProcessTargetResults$targetMatrix
 
@@ -202,12 +200,12 @@ responseInput <- responseMatrix_scaled[overlappedDrugs, ]
 ```
 
 ***
-# Multivariant model for protein dependence prediction
+# Multivariate model for protein dependence prediction
 
 ## Multi-target LASSO model
 
-Perform multivariant LASSO regression based on a drug-protein affinity matrix and a drug response matrix.   
-In this walk-through we only use 20 repetitions to save time.  In a real application, the number of repetitions can be larger, e.g. repeats = 100, to gain more robust estimations.
+Perform multivariate LASSO regression based on a drug-protein affinity matrix and a drug response matrix.   
+In this walk-through, we only use 20 repetitions to save time. In a real application, the number of repetitions can be larger, e.g. repeats = 100, to gain more robust estimations.
 
 ```{r}
 set.seed(333)
@@ -229,11 +227,11 @@ nrow(result$coefMat)
 ```
 
 
-# Examples of how to inteprete and perform down-stream analyses on the inferred protein dependence matrix
+# Examples of how to interpret and perform downstream analyses on the inferred protein dependence matrix
 
 ## Heatmap of protein dependence coefficients
 
-The protein dependence matrix can be nicely visualized in a heatmap. High positive coefficients imply strong reliance of a certain sample on this protein for survival. Proteins with coefficients close to zero are less essential for the survival of cells. Negative coefficients indicate that the viability phenotype benefits from inhibition of the protein.   
+The protein dependence matrix can be visualized in a heatmap. High positive coefficients imply strong reliance of a certain sample on this protein for survival. Proteins with coefficients close to zero are less essential for the survival of cells. Negative coefficients indicate that the viability phenotype benefits from inhibition of the protein.   
 
 ```{r GDSC_coefHeatmap, fig.height=13, fig.width=9}
 # firstly, we need to load the processed mutation annotation of the cell lines
@@ -294,11 +292,12 @@ pheatmap(plotTab,
   fontsize_row = 7, fontsize_col = 10
 )
 ```
-Heatmap visualization of the protein dependence values for selected kinases, inferred from the GDSC drug screen dataset. Red indicates high dependence value and blue indicates low dependence value. In the column annotations, cell lines with certain genomic variations are colored by black. Columns are ordered by hierarchical clustering based on euclidean distance.
+Heatmap visualization of the protein dependence values for selected kinases, inferred from the GDSC drug screen dataset. Red indicates a high dependence value and blue indicates a low dependence value. In the column annotations, cell lines with certain genomic variations are colored black. Columns are ordered by hierarchical clustering based on euclidean distance.
 
 ## Differential dependence on proteins associated with cancer types and genotypes
 
-In this part, we will test whether the sample-specific protein dependence is associated with cancer types or certain genotypes of those samples. 
+In this part, we will test whether the sample-specific protein dependence is associated with cancer types or certain genotypes of those samples.  
+
 Prepare genomic background table
 ```{r gdsc genomic}
 cell_anno_final <- mutation_GDSC %>%
@@ -312,7 +311,7 @@ colnames(cell_anno_final) <- str_replace_all(
 )
 ```
 
-A function to perform association test between target importance and cancer type or genomic features. If the features have only two levels, Student's t-test will be use. If the features have more than two levels, ANOVA test will be used. 
+A function to perform association test between target importance and cancer type or genomic features. If a feature has only two levels, Student's t-test will be use. If a feature has more than two levels, ANOVA test will be used. 
 ```{r}
 diffImportance <- function(coefMat, Annotation) {
   # process genetic background table
@@ -355,7 +354,7 @@ diffImportance <- function(coefMat, Annotation) {
 ```
 
 
-Perform association test between protein dependence and cancer type or mutational background
+Perform association test between protein dependence and cancer type or mutation.
 ```{r gdsc t-test}
 testRes <- diffImportance(importanceTab, cell_anno_final)
 ```
@@ -416,7 +415,7 @@ ggplot(plotTab, aes(x = target, y = coef, group = Cancer_Type)) +
   geom_vline(xintercept = seq(from = 1.5, to = 8.5, by = 1), color = "darkgrey") +
   labs(color = "Cancer Type")
 ```
-Protein dependence coefficients for kinases with significant association with the cancer types (ANOVA, BH adjusted p-value < 0.05, Fold Change > 0.1). Within each panel, each point corresponds to a cell line. The coefficients were centered and scaled to obtain a per-protein z-score, and the points are grouped and colored by cancer type (ALL, red; AML, orange; DLBC, green, BRCAHer-, blue; BRCAHer+, purple).
+This plot shows the protein dependence coefficients for kinases with significant association with the cancer types (ANOVA, BH adjusted p-value < 0.05, Fold Change > 0.1). Within each panel, each point corresponds to a cell line. The coefficients were centered and scaled to obtain a per-protein z-score, and the points are grouped and colored by cancer type (ALL, red; AML, orange; DLBC, green, BRCAHer-, blue; BRCAHer+, purple).
 
 
 ## Visualize P-values of significant associations between protein dependence and mutational background
@@ -537,12 +536,11 @@ plotDiffBox <- function(pTab, coefMat, cellAnno, fdrCut = 0.05) {
 ```
 
 
-Visualization of exemplary association between NRAS mutation status and MAP2K2 dependence visualized in a beeswarm plot
+Visualization of exemplary association between NRAS mutation status and MAP2K2 dependence using a beeswarm plot.
 ```{r gdsc boxplot, fig.height=4.5, fig.width=5}
 pList <- plotDiffBox(testRes, importanceTab, cell_anno_final, 0.05)
 pList$MAP2K2_NRAS
 ```
-Boxplot showing the significant association between MAP2K2 protein dependence and NRAS mutation in GDSC cancer cell lines.
 
 # Session info
 ```{r}

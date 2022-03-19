@@ -13,15 +13,17 @@ processTarget(
 )
 }
 \arguments{
-\item{targetsMat}{Drug-protein affinity matrix with kd values (or optionally other
-affinity measurement values at roughly normal distribution). Rows should contain drugs and columns should contain targets.}
+\item{targetsMat}{Drug-protein affinity matrix with kd values (or optionally 
+other affinity measurement values at roughly normal distribution). Each row is
+a drug and each column is a sample (cell line or tumor sample).}
 
 \item{KdAsInput}{A boolean value indicating whether the drug-protein
 affinity matrix contains kd values which should be log- and arctan-transformed.
 The default value is TRUE.}
 
 \item{removeCorrelated}{A boolean value indicating whether highly
-correlated proteins should be summarized in target groups. The default value is TRUE.}
+correlated proteins should be summarized in target groups. 
+The default value is TRUE.}
 
 \item{keepTargets}{A character variable that specifies important proteins
 that should be retained in the matrix.}
@@ -30,7 +32,7 @@ that should be retained in the matrix.}
 into one target group. The value should be between 0 and 1.}
 }
 \value{
-A list of two element: 1)\code{targetMatrix} Pre-processed drug-protein
+A list of two elements: 1)\code{targetMatrix} Pre-processed drug-protein
 affinity matrix; 2)\code{targetCluster}, a list that contains the targets
 show high correlations with each other.
 }
