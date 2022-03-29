@@ -4,8 +4,8 @@
 #' drug_response_GDSC
 #'
 #' This is the processed Genomics of Drug Sensitivity in Cancer (GDSC) drug sensitivity dataset.
-#' The raw dataset was downloaded from https://www.cancerrxgene.org/downloads/bulk_download. 
-#' The post-processing steps can be found at: https://www.huber.embl.de/users/jlu/depInfeR/process_GDSC.html.
+#' The raw dataset was downloaded from \url{https://www.cancerrxgene.org/downloads/bulk_download}. 
+#' The post-processing steps can be found at: \url{https://www.huber.embl.de/users/jlu/depInfeR/process_GDSC.html}.
 #'
 #' @docType data
 #' @usage data(drug_response_GDSC)
@@ -19,8 +19,8 @@
 #'
 #' This cancer type and genomic background annotation for cancer cell lines, 
 #' use for the analysis of the GDSC dataset in the package vignette.
-#' The raw dataset was downloaded from https://www.cancerrxgene.org/downloads/bulk_download. 
-#' The post-processing steps can be found at: https://www.huber.embl.de/users/jlu/depInfeR/process_GDSC.html.
+#' The raw dataset was downloaded from \url{https://www.cancerrxgene.org/downloads/bulk_download}. 
+#' The post-processing steps can be found at: \url{https://www.huber.embl.de/users/jlu/depInfeR/process_GDSC.html}.
 #'
 #' @docType data
 #' @usage data(mutation_GDSC)
@@ -34,8 +34,8 @@
 #'
 #' This drug-protein affinity profiling data for the analysis of the GDSC dataset - 
 #' a subset of the data provided by Klaeger et al. 2017.
-#' The raw data can be found in the supplementary file of the paper (Table_S1 & Table_S2): https://science.sciencemag.org/content/358/6367/eaan4368/tab-figures-data.
-#' The post-processing steps can be found at: https://www.huber.embl.de/users/jlu/depInfeR/process_kinobeads.html.
+#' The raw data can be found in the supplementary file of the paper (Table_S1 & Table_S2): \url{https://science.sciencemag.org/content/358/6367/eaan4368/tab-figures-data}.
+#' The post-processing steps can be found at: \url{https://www.huber.embl.de/users/jlu/depInfeR/process_kinobeads.html}.
 #' 
 #' @docType data
 #' @usage data(targetsGDSC)

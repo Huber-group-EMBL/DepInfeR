@@ -16,7 +16,7 @@ and therefore could be used to gain a causal and accurate understanding of
 functional consequences of genomic aberrations in a heterogeneous disease, 
 as well as to guide the choice of pharmacological intervention for a specific 
 cancer type, sub-type, or an individual patient. For more information, 
-please read out preprint on bioRxiv: https://doi.org/10.1101/2022.01.11.475864.
+please read out preprint on bioRxiv: \url{https://doi.org/10.1101/2022.01.11.475864}.
 }
 \details{
 The main functions are:

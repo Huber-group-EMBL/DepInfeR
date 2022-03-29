@@ -13,8 +13,8 @@ data(mutation_GDSC)
 \description{
 This cancer type and genomic background annotation for cancer cell lines, 
 use for the analysis of the GDSC dataset in the package vignette.
-The raw dataset was downloaded from https://www.cancerrxgene.org/downloads/bulk_download. 
-The post-processing steps can be found at: https://www.huber.embl.de/users/jlu/depInfeR/process_GDSC.html.
+The raw dataset was downloaded from \url{https://www.cancerrxgene.org/downloads/bulk_download}. 
+The post-processing steps can be found at: \url{https://www.huber.embl.de/users/jlu/depInfeR/process_GDSC.html}.
 }
 \examples{
 data(mutation_GDSC)

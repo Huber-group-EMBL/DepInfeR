@@ -11,7 +11,7 @@
 #' functional consequences of genomic aberrations in a heterogeneous disease, 
 #' as well as to guide the choice of pharmacological intervention for a specific 
 #' cancer type, sub-type, or an individual patient. For more information, 
-#' please read out preprint on bioRxiv: https://doi.org/10.1101/2022.01.11.475864. 
+#' please read out preprint on bioRxiv: \url{https://doi.org/10.1101/2022.01.11.475864}. 
 #'
 #' The main functions are:
 #'
@@ -143,7 +143,7 @@ processTarget <- function(targetsMat, KdAsInput = TRUE, removeCorrelated = TRUE,
 #' cross-validation to infer per-sample protein dependence coefficients. 
 #' Please refer to the package vignette for more detailed information about this function.
 #' For the mathematical model behind this function, 
-#' please refer to our preprint on bioRxiv: https://doi.org/10.1101/2022.01.11.475864
+#' please refer to our preprint on bioRxiv: \url{https://doi.org/10.1101/2022.01.11.475864}.
 #' 
 #' @param TargetMatrix Pre-processed drug-protein affinity matrix. 
 #' Each row is a drug and each column is a protein target.

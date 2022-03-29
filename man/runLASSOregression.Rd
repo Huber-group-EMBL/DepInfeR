@@ -37,7 +37,7 @@ This function performs multivariate linear regression with LASSO penalty and
 cross-validation to infer per-sample protein dependence coefficients. 
 Please refer to the package vignette for more detailed information about this function.
 For the mathematical model behind this function, 
-please refer to our preprint on bioRxiv: https://doi.org/10.1101/2022.01.11.475864
+please refer to our preprint on bioRxiv: \url{https://doi.org/10.1101/2022.01.11.475864}.
 }
 \examples{
 data(responseInput) #load drug response matrix
