@@ -1,7 +1,7 @@
 Package: DepInfeR
 Type: Package
 Title: Inferring tumor-specific cancer dependencies through integrating ex-vivo drug response assays and drug-protein profiling
-Version: 0.99.6
+Version: 0.99.7
 Authors@R: 
   c(person(given = "Junyan",
            family = "Lu",
@@ -17,9 +17,9 @@ Encoding: UTF-8
 Depends: R (>= 4.2.0)
 Imports:
     matrixStats,
-    BiocParallel,
     glmnet,
-    stats
+    stats,
+    BiocParallel
 Suggests:
     testthat (>= 3.0.0),
     knitr,

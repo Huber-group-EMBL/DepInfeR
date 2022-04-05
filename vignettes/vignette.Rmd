@@ -16,8 +16,10 @@ library(DepInfeR)
 library(tibble)
 library(tidyr)
 library(ggplot2)
+library(BiocParallel)
 library(dplyr)
 ```
+
 
 ***
 
@@ -206,10 +208,13 @@ In this walk-through, we only use 20 repetitions to save time. In a real applica
 Note that the global random number stream by set.seed() function is ignored by the runLASSORegression() function.
 
 ```{r}
+#set up BiocParallel back-end
+param <- MulticoreParam(workers = 2, RNGseed = 333)
+
 result <- runLASSORegression(
   TargetMatrix = targetInput,
   ResponseMatrix = responseInput, repeats = 3,
-  RNGseed = 333
+  BPPARAM = param
 )
 ```
 

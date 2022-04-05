@@ -7,9 +7,8 @@
 runLASSORegression(
   TargetMatrix,
   ResponseMatrix,
-  cores = 1,
   repeats = 100,
-  RNGseed = NULL
+  BPPARAM = bpparam()
 )
 }
 \arguments{
@@ -19,18 +18,22 @@ Each row is a drug and each column is a protein target.}
 \item{ResponseMatrix}{Pre-processed drug-response viability matrix. 
 Each row is a drug and each column is a sample (cell line or tumor sample).}
 
-\item{cores}{A integer variable specifying the number of cores. 
-Multi-core parallelization may only work for Mac OS and Linux.}
-
 \item{repeats}{A integer variable specifying the number of regression repeats.
 The default value is 100. A higher number can result in better stability but 
 also takes longer time.}
 
-\item{RNGseed}{User can specify a random seed number if reproducibility is required. 
-Note that the global random seed by \code{set.seed()} is ignored.}
+\item{BPPARAM}{The BiocParallel back-end. If not specified, the default 
+\code{MulticoreParam} will be used.}
 }
 \value{
-Pre-processed drug-protein affinity matrix
+A list of 6 elements: 
+\item{coefMat}{A matrix containing the inferred protein dependency coefficient matrix.
+ Each row is a protein and each column is a sample.}
+\item{freqMat}{A matrix containing the selection frequency a protein (row) for each sample (column).}
+\item{lambdaList}{A vector containing the lambda values selected for all repeated runs.}
+\item{varExplain.all}{A vector containing the R2 (variance explained) values for all repeated runs.}
+\item{inputX}{A copy of the input drug-protein affinity matrix.}
+\item{inputY}{A copy of the input drug-repsonse viability matrix.}
 }
 \description{
 This function performs multivariate linear regression with LASSO penalty and 

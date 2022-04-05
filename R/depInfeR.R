@@ -149,30 +149,35 @@ processTarget <- function(targetsMat, KdAsInput = TRUE, removeCorrelated = TRUE,
 #' Each row is a drug and each column is a protein target.
 #' @param ResponseMatrix Pre-processed drug-response viability matrix. 
 #' Each row is a drug and each column is a sample (cell line or tumor sample).  
-#' @param cores A integer variable specifying the number of cores. 
-#' Multi-core parallelization may only work for Mac OS and Linux.
 #' @param repeats A integer variable specifying the number of regression repeats.
 #' The default value is 100. A higher number can result in better stability but 
 #' also takes longer time.  
-#' @param RNGseed User can specify a random seed number if reproducibility is required. 
-#' Note that the global random seed by \code{set.seed()} is ignored.  
-#' @return Pre-processed drug-protein affinity matrix
+#' @param BPPARAM The BiocParallel back-end. If not specified, the default 
+#' \code{MulticoreParam} will be used. 
 #' @export
 #' @import glmnet stats BiocParallel
 #' @importFrom matrixStats rowMedians
-#'
+#' 
+#' @return A list of 6 elements: 
+#' \item{coefMat}{A matrix containing the inferred protein dependency coefficient matrix.
+#'  Each row is a protein and each column is a sample.}
+#' \item{freqMat}{A matrix containing the selection frequency a protein (row) for each sample (column).}
+#' \item{lambdaList}{A vector containing the lambda values selected for all repeated runs.}
+#' \item{varExplain.all}{A vector containing the R2 (variance explained) values for all repeated runs.}
+#' \item{inputX}{A copy of the input drug-protein affinity matrix.}
+#' \item{inputY}{A copy of the input drug-repsonse viability matrix.}
+#' 
 #' @examples
 #' data(responseInput) #load drug response matrix
 #' data(targetInput) #load drug-target affinity matrix
 #' runLASSORegression(TargetMatrix = targetInput, ResponseMatrix = responseInput, repeats = 5)
 #'
-runLASSORegression <- function(TargetMatrix, ResponseMatrix, cores = 1, 
-                               repeats = 100, RNGseed = NULL) {
+runLASSORegression <- function(TargetMatrix, ResponseMatrix, repeats = 100,
+                               BPPARAM = bpparam()) {
     
   #check arguments
   stopifnot(is.matrix(TargetMatrix))
   stopifnot(is.matrix(ResponseMatrix))
-  stopifnot(is.numeric(cores) & cores == round(cores))
   stopifnot(is.numeric(repeats) & repeats == round(repeats))
   
   #function for multi-target LASSO with repeated cross-validation
@@ -184,11 +189,9 @@ runLASSORegression <- function(TargetMatrix, ResponseMatrix, cores = 1,
     res
   }
   
-  multicoreParam <- MulticoreParam(workers = cores, RNGseed = RNGseed)
-  
   allResults <- bplapply(seq(repeats), runGlm.multi, 
                          TargetMatrix, ResponseMatrix, 
-                         BPPARAM = multicoreParam)
+                         BPPARAM = BPPARAM)
 
   
   #Run function for processing glm results
