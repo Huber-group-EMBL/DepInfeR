@@ -112,15 +112,25 @@ We provide a function, *ProcessTargetResults*, for the pre-processing of the dru
 
 - log-transform Kd values (KdAsInput = TRUE)
 - arctan-transform log(Kd) values (KdAsInput = TRUE)
-- check target similarity and remove highly correlated targets (removeCorrelated = TRUE)
+- check target similarity and remove highly correlated targets (removeCorrelated = TRUE). The default cut-off is cosine similarity > 0.8.
 
 All steps within this function are optional depending on input data. The transformation steps should be performed if the affinity matrix consists of Kd values. If there are highly correlated features within the affinity matrix, they can be removed using the provided function.  The users can also use their own method to preprocess the input drug-target affinity matrix, as long as the distribution of the affinity values is roughly normal and do not have too many highly correlated features.
 ```{r}
 ProcessTargetResults <- processTarget(targetMatrix,
   KdAsInput = TRUE,
-  removeCorrelated = TRUE
+  removeCorrelated = TRUE,
+  cutoff = 0.8,
 )
 ```
+
+In this step, the proteins with similar drug-binding profiling are grouped into a single cluster to avoid collinearity in the multivariate regression models. If two or more proteins share very similar drug-binding profile, as predictors, they contain redundant information and the multivariate regression model cannot distinguish them. Models with LASSO regularization will randomly pick one of those collinear features and thus lead to model instability. Therefore, our method adopts the cluster/proxy set method to deal with collinearity in feature selection (Dormann, Carsten F., et al. "Collinearity: a review of methods to deal with it and a simulation study evaluating their performance." Ecography 36.1 (2013): 27-46.).  
+Note that this clustering step is largely technical and the biology function of the targets are not considered. Therefore, we recommend the users always look at the members of those selected target clusters if they choose to perform this optional step and decide which target makes more sense based on their prior knowledge. 
+
+The target clusters and their members are stored as a list. The names of the character vectors are the representative targets used for inference and the elements are the cluster members.
+```{r}
+head(ProcessTargetResults$targetCluster)
+```
+
 
 # Preparation of the drug response matrix
 

@@ -4,3 +4,5 @@ Changes in version 0.99.4 (2022-03-19)
 + Modify package according to comments from Bioconductor team
 Changes in version 0.99.7 (2022-04-05)
 + Modify package based on the comments from the second round revision
+Changes in version 0.99.8 (2022-06-02)
++ Update the vignette to add more description about the target matrix proprocessing step 
